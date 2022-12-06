@@ -25,6 +25,10 @@ class _UserListPageState extends State<UserListPage> {
     ..getOnBoardingDetail();
   var data;
   String dvalue = "";
+  int i = 0;
+
+  //final items = List<String>.generate(20, (i) => "Item ${i + 1}");
+  final items = List<String>.generate(0, (i) => "${i + 1}");
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +119,25 @@ class _UserListPageState extends State<UserListPage> {
                         );
                       }),
                 ),
-                Expanded(child: _addTile()),
+                ListView.builder(
+                  itemBuilder: (context, index) {
+                    final item = items[index];
+                    return Dismissible(
+                      onDismissed: (direction) {
+                        // Removes that item the list on swipwe
+                        setState(() {
+                          items.removeAt(index);
+                        });
+                        // Shows the information on Snackbar
+                      },
+                      background: Container(color: Colors.red),
+                      key: Key(item),
+                      child: ListTile(
+                        title: Column(children: []),
+                      ),
+                    );
+                  },
+                ),
                 Spacer(),
                 GestureDetector(
                   onTap: () {
@@ -421,7 +443,6 @@ class _UserListPageState extends State<UserListPage> {
     final String? text,
     final Gradient? gradient,
   }) {
-    
     print("Df");
     return Container(
       width: width,
@@ -436,7 +457,7 @@ class _UserListPageState extends State<UserListPage> {
     );
   }
 
-  Widget _addTile() {
+/* Widget _addTile() {
     return ListTile(
       title: Container(
         width: SizeUtils.horizontalBlockSize * 85,
@@ -468,5 +489,5 @@ class _UserListPageState extends State<UserListPage> {
 
       },
     );
-  }
+  }*/
 }

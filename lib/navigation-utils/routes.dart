@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:splitify/user_detail_page/bottom_navigation.dart';
+import 'package:splitify/user_detail_page/home_page/bottom_navigation.dart';
 import 'package:splitify/user_detail_page/signin_page.dart';
 
 import '../splash_screen.dart';

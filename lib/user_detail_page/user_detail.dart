@@ -24,7 +24,7 @@ class UserDetail extends StatefulWidget {
 }
 
 class _UserDetailState extends State<UserDetail> {
-  final SplitifyControler splitifyControler = Get.find();
+  final SplitifyControler splitifyControler = Get.find()..insertUserDetail;
 
   //DateTime selectedDate = DateTime.now();
 

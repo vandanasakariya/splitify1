@@ -1,9 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:splitify/user_detail_page/splitify_controller.dart';
-
 import '../navigation-utils/navigation.dart';
 import '../navigation-utils/routes.dart';
 import '../navigation-utils/size_utils.dart';
@@ -105,52 +103,7 @@ class SignInPage extends StatelessWidget {
               ),
               SizedBox(height: SizeUtils.verticalBlockSize * 2),
 
-              /* CustomTextField(
-              validator: (val) =>
-                  val!.isEmpty || !val.contains("@") || !val.contains(".")
-                      ? "enter a valid eamil"
-                      : null,
-              controller: splitifyControler.emailController,
-              labelText: AppString.enterEmailId,
-              height: SizeUtils.verticalBlockSize * 5,
-              colors: Colors.indigo.shade100,
-              borderRadius: BorderRadius.circular(10),
-              contentPadding: EdgeInsets.fromLTRB(15, 0, 20, 11),
 
-            ),
-            SizedBox(height: SizeUtils.verticalBlockSize * 1),
-            CustomTextField(
-              validator: (pass) {
-                if (pass!.isEmpty) {
-                  return "Please Enter Password";
-                } else if (pass.length < 8) {
-                  return "Password must be atleast 8 characters long";
-                }
-              },
-              */ /* validator: (pass) {
-                if (pass == null) {
-                  return "Enter your password";
-                }
-              },*/ /*
-              controller: splitifyControler.passController,
-              labelText: AppString.enterPassword,
-              height: SizeUtils.verticalBlockSize * 5,
-              colors: Colors.indigo.shade100,
-              borderRadius: BorderRadius.circular(10),
-              contentPadding: EdgeInsets.fromLTRB(15, 0, 20, 11),
-            ),
-            SizedBox(height: SizeUtils.verticalBlockSize * 1),
-            CustomTextField(
-              validator: (ph) {
-                if (ph!.isEmpty) {
-                  return "Enter your phone";
-                }
-              },
-              */ /*validator: (ph) {
-                if (ph == null) {
-                  return "Enter your no";
-                }
-              },*/
 
               ElevatedButton(
                 onPressed: () {

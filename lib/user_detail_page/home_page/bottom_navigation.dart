@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../user_detail_page/user_detail.dart';
+import '../user_detail.dart';
 
 
 class BottomPage extends StatefulWidget {
