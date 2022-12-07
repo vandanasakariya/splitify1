@@ -9,12 +9,12 @@ import 'package:splitify/modal/setuserdetail.dart';
 import 'package:splitify/navigation-utils/size_utils.dart';
 import 'package:splitify/theam/app_img.dart';
 import 'package:splitify/theam/app_string.dart';
-import 'package:splitify/user_detail_page/splitify_controller.dart';
+import 'package:splitify/user_detail_page/controller/splitify_controller.dart';
 import 'package:splitify/widget/custom_text.dart';
 
-import '../navigation-utils/navigation.dart';
-import '../navigation-utils/routes.dart';
-import '../widget/custom_textfield.dart';
+import '../../navigation-utils/navigation.dart';
+import '../../navigation-utils/routes.dart';
+import '../../widget/custom_textfield.dart';
 
 class UserDetail extends StatefulWidget {
   const UserDetail({Key? key}) : super(key: key);

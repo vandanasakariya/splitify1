@@ -1,10 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:splitify/user_detail_page/splitify_controller.dart';
-import '../navigation-utils/navigation.dart';
-import '../navigation-utils/routes.dart';
-import '../navigation-utils/size_utils.dart';
+import 'package:splitify/user_detail_page/controller/splitify_controller.dart';
+import '../../modal/setuserdetail.dart';
+import '../../navigation-utils/navigation.dart';
+import '../../navigation-utils/routes.dart';
+import '../../navigation-utils/size_utils.dart';
 import 'firebase_auth.dart';
 
 class SignInPage extends StatelessWidget {
@@ -106,8 +108,14 @@ class SignInPage extends StatelessWidget {
 
 
               ElevatedButton(
-                onPressed: () {
+                onPressed: ()async {
+                /*  adduserdetail userDetail = adduserdetail(
 
+                    //name1: splitifyControler.controllers.string,
+                    userId: FirebaseAuth.instance.currentUser?.uid,
+                  );
+                  await splitifyControler
+                      .insertUserDetail(userDetail);*/
                    try {
                   FirebaseHelper.signUp(
                     email: splitifyControler.emailController.text,
@@ -119,6 +127,13 @@ class SignInPage extends StatelessWidget {
 
 
                 if (splitifyControler.formKey.currentState!.validate()) {
+                    adduserdetail userDetail = adduserdetail(
+
+                    //name1: splitifyControler.controllers.string,
+                    userId: FirebaseAuth.instance.currentUser?.uid,
+                  );
+                  await splitifyControler
+                      .insertUserDetail(userDetail);
                   Navigation.pushNamed(Routes.bottomPage);
 
                   print("aaa--");

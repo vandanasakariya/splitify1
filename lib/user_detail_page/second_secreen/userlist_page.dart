@@ -1,15 +1,14 @@
 import 'dart:developer';
-import 'dart:ffi';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:splitify/theam/app_img.dart';
 import 'package:splitify/theam/app_string.dart';
-import 'package:splitify/user_detail_page/splitify_controller.dart';
+import 'package:splitify/user_detail_page/controller/splitify_controller.dart';
 import 'package:get/get.dart';
 import 'package:splitify/widget/custom_text.dart';
-import '../modal/setuserdetail.dart';
-import '../navigation-utils/size_utils.dart';
+import '../../modal/setuserdetail.dart';
+import '../../navigation-utils/size_utils.dart';
 
 class UserListPage extends StatefulWidget {
   const UserListPage({Key? key}) : super(key: key);
@@ -24,7 +23,7 @@ class _UserListPageState extends State<UserListPage> {
   final SplitifyControler splitifyController = Get.find()
     ..getOnBoardingDetail();
   var data;
-  String dvalue = "";
+  var dropdownvalue = 0;
   int i = 0;
 
   //final items = List<String>.generate(20, (i) => "Item ${i + 1}");
@@ -33,7 +32,7 @@ class _UserListPageState extends State<UserListPage> {
   @override
   Widget build(BuildContext context) {
     data = Get.arguments;
-    List data2 = data["uname"];
+    List data2 = data!["uname"];
     log("data${data.toString()}");
     return SafeArea(
       child: Scaffold(
@@ -119,7 +118,8 @@ class _UserListPageState extends State<UserListPage> {
                         );
                       }),
                 ),
-                ListView.builder(
+                  /* ListView.builder(
+                     scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
                     final item = items[index];
                     return Dismissible(
@@ -137,7 +137,8 @@ class _UserListPageState extends State<UserListPage> {
                       ),
                     );
                   },
-                ),
+                ),*/
+
                 Spacer(),
                 GestureDetector(
                   onTap: () {
@@ -188,7 +189,7 @@ class _UserListPageState extends State<UserListPage> {
                                             items: data2
                                                 .map(
                                                   (e) => DropdownMenuItem(
-                                                    value: e,
+                                                    value:e,
                                                     child: Text(
                                                       "${e.toString().split("text").last.replaceAll(":", "").split("┤").last.split("├").first}",
                                                       style: TextStyle(
@@ -198,9 +199,14 @@ class _UserListPageState extends State<UserListPage> {
                                                   ),
                                                 )
                                                 .toList(),
-                                            onChanged: (value) {
-                                              print("dvalue${dvalue}");
-                                              dvalue = value as String;
+                                            onChanged: (newValue) {
+                                              setState(() {
+                                                //print("e${e}");
+                                                dropdownvalue =
+                                                    newValue as int;
+                                                print(
+                                                    "dropdownvalue${dropdownvalue}");
+                                              });
                                             },
                                           ),
                                         ),

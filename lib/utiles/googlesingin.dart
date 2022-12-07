@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:splitify/user_detail_page/splitify_controller.dart';
+import 'package:splitify/user_detail_page/controller/splitify_controller.dart';
 
 class GoogleSign {
   final SplitifyControler splitifyControler = Get.find();

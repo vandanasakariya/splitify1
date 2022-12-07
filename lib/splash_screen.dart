@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:splitify/modal/getuserdata.dart';
 import 'package:splitify/theam/app_img.dart';
-import 'package:splitify/user_detail_page/splitify_controller.dart';
+import 'package:splitify/user_detail_page/controller/splitify_controller.dart';
 import 'package:splitify/utiles/googlesingin.dart';
 import 'navigation-utils/navigation.dart';
 import 'navigation-utils/routes.dart';
@@ -30,8 +30,8 @@ class _SplashScreenState extends State<SplashScreen> {
         // final credential = GoogleSign().signInWithGoogle();
         //log("credential-------${credential}");
         FirebaseAuth.instance.currentUser == null
-            ? Navigation.pushNamed(Routes.bottomPage)
-            : Navigation.pushNamed(Routes.signInPage);
+            ? Navigation.pushNamed(Routes.signInPage)
+            : Navigation.pushNamed(Routes.bottomPage);
         //Navigation.pushNamed(Routes.signInPage);
       },
     );

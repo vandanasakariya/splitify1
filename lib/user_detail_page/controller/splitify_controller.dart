@@ -6,29 +6,32 @@ import 'package:splitify/modal/getuserdata.dart';
 import 'package:splitify/modal/setuserdetail.dart';
 import 'package:splitify/utiles/app_constant.dart';
 
-import '../sharedprafrance/shardprafrance.dart';
+import '../../sharedprafrance/shardprafrance.dart';
 
 class SplitifyControler extends GetxController {
   RxBool userLogin = false.obs;
   RxString dropdownvalue = "0".obs;
   RxString userid = "".obs;
+  RxList controllers = [].obs;
+  RxList fields = [].obs;
   Rx<GetUserDetail> getUserDetail = GetUserDetail().obs;
   RxList<GetUserDetail> getUserDetailList = <GetUserDetail>[].obs;
   final emailController = TextEditingController();
   final passController = TextEditingController();
   final phoneController = TextEditingController();
   final amountController = TextEditingController();
+  final writeATripController = TextEditingController();
+  final dateInput = TextEditingController();
+  List<TextEditingController> addPersonControllerFirst =
+  <TextEditingController>[];
 
 
 
   final formKey = GlobalKey<FormState>();
-  final writeATripController = TextEditingController();
-  final dateInput = TextEditingController();
+  final formKeySecondScreen = GlobalKey<FormState>();
 
-  RxList controllers = [].obs;
-  RxList fields = [].obs;
-  List<TextEditingController> addPersonControllerFirst =
-      <TextEditingController>[];
+
+
 
   Future<void> insertUserDetail(adduserdetail data) async {
 
@@ -57,8 +60,8 @@ class SplitifyControler extends GetxController {
         getUserDetail.value = GetUserDetail.fromDocumentSnapshot(element);
         // onBoardingModal.value.add(onBoardingModal.value);
         getUserDetailList.add(getUserDetail.value);
-        print("${FirebaseAuth.instance.currentUser?.uid}"
-            /*"element==>>>  getUserDetailList : ${getUserDetailList.first.name1}"*/);
+        print(/*"${FirebaseAuth.instance.currentUser?.uid}"*/
+            "element==>>>  getUserDetailList : ${getUserDetailList.first.name1}");
       });
     });
   }

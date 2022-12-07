@@ -43,6 +43,7 @@ dependencies:
   firebase_core:
   cloud_firestore:
   snapshot:
+  flutter_swiper: ^1.1.6
 
 
 dev_dependencies:

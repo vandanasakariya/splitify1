@@ -4,6 +4,7 @@ class GetUserDetail {
   String? name1;
   String? userId;
   String? amount;
+  String? note;
 
   /*String? name2;
   String? name3;
@@ -14,6 +15,7 @@ class GetUserDetail {
     this.name1,
     this.userId,
     this.amount,
+    this.note,
     /*this.name2,
     this.name3,
     this.name4,
@@ -27,6 +29,7 @@ class GetUserDetail {
     name1 = data['name1'] ?? '';
     userId = data['userId'] ?? '';
     amount = data['amount'] ?? '';
+    note = data['note'] ?? '';
     /*name2 = data['name2'] ?? '';
     name3 = data['name3'] ?? '';
     name4 = data['name4'] ?? '';
@@ -37,6 +40,7 @@ class GetUserDetail {
     name1 = json['name1'] ?? '';
     userId = json['userId'] ?? '';
     amount = json['amount'] ?? '';
+    note = json['note'] ?? '';
     /*name2 = json['name2'] ?? '';
     name3 = json['name3'] ?? '';
     name4 = json['name4'] ?? '';*/
@@ -47,6 +51,7 @@ class GetUserDetail {
     data['name1'] = name1;
     data['userId'] = userId;
     data['amount'] = amount;
+    data['note'] = note;
     /*data['name2'] = name2;
     data['name3'] = name3;
     data['name4'] = name4;
