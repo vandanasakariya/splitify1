@@ -36,6 +36,8 @@ class _UserDetailState extends State<UserDetail> {
     super.dispose();
   }
 
+  var textformFields = <Widget>[];
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -78,7 +80,6 @@ class _UserDetailState extends State<UserDetail> {
                     ),
                     CustomTextField(
                       height: SizeUtils.verticalBlockSize * 5,
-
                       borderRadius: BorderRadius.circular(10),
                       controller: splitifyControler.writeATripController,
                       keyboardType: TextInputType.text,
@@ -161,19 +162,16 @@ class _UserDetailState extends State<UserDetail> {
                         ],
                       ),
                     ),
-
                     Expanded(child: _listView()),
                     SizedBox(
                       height: 3,
                     ),
                     Row(
                       children: [
-
                         Expanded(child: _addTile()),
                         GestureDetector(
                           onTap: () async {
                             adduserdetail userDetail = adduserdetail(
-
                               name1: splitifyControler.controllers.string,
                               userId: FirebaseAuth.instance.currentUser?.uid,
                             );
@@ -209,7 +207,6 @@ class _UserDetailState extends State<UserDetail> {
                             ),
                           ),
                         ),
-
                       ],
                     ),
                   ],
@@ -243,52 +240,51 @@ class _UserDetailState extends State<UserDetail> {
   }
 
   Widget _addTile() {
-    return ListTile(title:  Container(
-      alignment: Alignment.center,
-      //width: SizeUtils.verticalBlockSize * 20,
-      height: SizeUtils.horizontalBlockSize * 11,
-      decoration: BoxDecoration(
-        color: Color(0xF0033843),
-        borderRadius: BorderRadius.circular(15),
+    return ListTile(
+      title: Container(
+        alignment: Alignment.center,
+        //width: SizeUtils.verticalBlockSize * 20,
+        height: SizeUtils.horizontalBlockSize * 11,
+        decoration: BoxDecoration(
+          color: Color(0xF0033843),
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: AppText(
+          text: AppString.add,
+          fontSize: SizeUtils.fSize_16(),
+          color: Colors.white,
+        ),
       ),
-      child: AppText(
-        text: AppString.add,
-        fontSize: SizeUtils.fSize_16(),
-        color: Colors.white,
-      ),
-    ),
-/*title:  Container(
-  alignment: Alignment.center,
-  width: SizeUtils.verticalBlockSize * 17,
-  height: SizeUtils.horizontalBlockSize * 11,
-  decoration: BoxDecoration(
-    color: Color(0xF0033843),
-    borderRadius: BorderRadius.circular(15),
-  ),
-  child: AppText(
-    text: AppString.add,
-    fontSize: SizeUtils.fSize_16(),
-    color: Colors.white,
-  ),
-),*/
 
       onTap: () {
         final controller = TextEditingController();
-        final field = TextField(
+        final field = CustomTextField(
+          alignment: Alignment.center,
+          borderRadius: BorderRadius.circular(8),
+          suffixIcon: InkWell(
+              child: Icon(Icons.delete),
+              onTap: () {
+                setState(() {
+                  //splitifyControler.fields.removeAt(field);
+                  print("controller${splitifyControler.controllers}");
+                  // textformFields.remove(tagForm(controller));
+                });
+              }),
           controller: controller,
           keyboardType: TextInputType.text,
-          decoration: InputDecoration(
-            contentPadding: EdgeInsets.fromLTRB(15, 0, 20, 11),
-            border: InputBorder.none,
-            hintText:
-                "  ${splitifyControler.controllers.length + 1} Enter Name...",
-          ),
+          contentPadding: EdgeInsets.fromLTRB(15, 20, 20, 11),
+          hintText:
+              "  ${splitifyControler.controllers.length + 1} Enter Name...",
         );
 
         setState(() {
           splitifyControler.controllers.add(controller);
           splitifyControler.fields.add(field);
         });
+        /* setState(() {
+          splitifyControler.controllers.add(controller);
+          splitifyControler.fields.remove(field);
+        });*/
       },
     );
   }

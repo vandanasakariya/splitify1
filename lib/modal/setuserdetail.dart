@@ -5,12 +5,14 @@ class adduserdetail {
   String? userId;
   String? amount;
   String? note;
+  String? username;
 
   adduserdetail({
     this.name1,
     this.userId,
     this.amount,
     this.note,
+    this.username,
   }) {}
 
   adduserdetail.fromDocumentSnapshot(
@@ -21,6 +23,7 @@ class adduserdetail {
     userId = data["userId"] ?? '';
     amount = data["amount"] ?? '';
     note = data["note"] ?? '';
+    username = data["username"] ?? '';
 
   }
 
@@ -29,6 +32,7 @@ class adduserdetail {
     userId = json["userId"] ?? '';
     amount = json["amount"] ?? '';
     note = json["note"] ?? '';
+    username = json["username"] ?? '';
 
   }
 
@@ -38,6 +42,7 @@ class adduserdetail {
     data['userId'] = userId;
     data['amount'] = amount;
     data['note'] =note;
+    data['username'] =username;
 
     return data;
   }

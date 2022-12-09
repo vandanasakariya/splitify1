@@ -44,6 +44,9 @@ class CustomTextField extends StatelessWidget {
   final Gradient? gradient;
   final BorderRadiusGeometry? borderRadius;
   final List<TextInputFormatter>? inputFormatters;
+  final AlignmentGeometry? alignment;
+
+  final Widget? suffix;
 
   CustomTextField({
     Key? key,
@@ -85,7 +88,7 @@ class CustomTextField extends StatelessWidget {
     this.gradient,
     this.borderRadius,
     this.inputFormatters,
-    this.labelText,
+    this.labelText, this.suffix, this.alignment,
   }) : super(key: key);
 
   final ValueNotifier<bool> _isObscure = ValueNotifier(true);
@@ -101,7 +104,8 @@ class CustomTextField extends StatelessWidget {
               isObscure = false;
             }
             return IntrinsicHeight(
-              child: Container(
+              child: Container
+                (alignment: alignment,
                 height: SizeUtils.verticalBlockSize * 5,
                 width: width,
                 // color: Colors.indigo.shade200,
@@ -133,11 +137,15 @@ class CustomTextField extends StatelessWidget {
                   textAlign: textAlign ?? TextAlign.start,
                   enabled: enabled,
                   decoration: InputDecoration(
+
                     labelText: labelText,
                     hintText: hintText,
                     border: InputBorder.none,
                     contentPadding: contentPadding,
+                    suffix: suffix,
+                    suffixIcon: suffixIcon,
                   ),
+
                   /* decoration: InputDecoration(
                     prefix: prefixWidget,
                     contentPadding: contentPadding ??

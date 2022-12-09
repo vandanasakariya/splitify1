@@ -7,6 +7,7 @@ import 'package:splitify/theam/app_string.dart';
 import 'package:splitify/user_detail_page/controller/splitify_controller.dart';
 import 'package:get/get.dart';
 import 'package:splitify/widget/custom_text.dart';
+import 'package:splitify/widget/custom_textfield.dart';
 import '../../modal/setuserdetail.dart';
 import '../../navigation-utils/size_utils.dart';
 
@@ -23,11 +24,10 @@ class _UserListPageState extends State<UserListPage> {
   final SplitifyControler splitifyController = Get.find()
     ..getOnBoardingDetail();
   var data;
-  var dropdownvalue = 0;
+  var dropdownvalue;
   int i = 0;
 
-  //final items = List<String>.generate(20, (i) => "Item ${i + 1}");
-  final items = List<String>.generate(0, (i) => "${i + 1}");
+  final items = List<String>.generate(20, (i) => "Item ${i + 1}");
 
   @override
   Widget build(BuildContext context) {
@@ -37,122 +37,205 @@ class _UserListPageState extends State<UserListPage> {
     return SafeArea(
       child: Scaffold(
         body: Obx(
-          () => Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: SizeUtils.verticalBlockSize * 2,
-                vertical: SizeUtils.horizontalBlockSize * 2),
-            child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                      bottom: SizeUtils.verticalBlockSize * 3,
-                      top: SizeUtils.horizontalBlockSize * 4),
-                  child: Text(
-                    data["journeyname"],
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: SizeUtils.fSize_20(), color: Colors.black),
+          () => Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                    bottom: SizeUtils.verticalBlockSize * 3,
+                    top: SizeUtils.horizontalBlockSize * 4),
+                child: Text(
+                  data["journeyname"],
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: SizeUtils.fSize_20(), color: Colors.black),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _commonContainer(
+                    height: SizeUtils.verticalBlockSize * 13,
+                    width: SizeUtils.verticalBlockSize * 40,
+                    color: Colors.yellow.shade200,
+                    text: AppString.moneyIn,
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _commonContainer(
-                      height: SizeUtils.verticalBlockSize * 12,
-                      width: SizeUtils.horizontalBlockSize * 43,
-                      color: Colors.yellow.shade200,
-                      text: AppString.moneyIn,
-                    ),
-                    _commonContainer(
-                      height: SizeUtils.verticalBlockSize * 12,
-                      width: SizeUtils.horizontalBlockSize * 43,
-                      color: Colors.lightBlueAccent.shade100,
-                      text: AppString.moneyOut,
-                    ),
-                  ],
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(
-                      vertical: SizeUtils.verticalBlockSize * 2),
-                  height: SizeUtils.horizontalBlockSize * 27,
-                  child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: splitifyController.controllers.length,
-                      shrinkWrap: true,
-                      itemBuilder: (BuildContext context, int index) {
-                        /*  final data =
-                            splitifyController.getUserDetailList[index];*/
-                        return Container(
-                          margin: EdgeInsets.all(5),
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Colors.grey,
-                                blurRadius: 2,
-                                offset: Offset(1, 1),
-                              )
-                            ],
+                ],
+              ),
+              Container(
+                margin: EdgeInsets.symmetric(
+                    vertical: SizeUtils.verticalBlockSize * 2),
+                height: SizeUtils.horizontalBlockSize * 28,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: splitifyController.controllers.length,
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      // height: SizeUtils.verticalBlockSize * 2,
+                      width: SizeUtils.horizontalBlockSize * 27,
+                      margin: EdgeInsets.all(5),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.grey,
+                            blurRadius: 2,
+                            offset: Offset(1, 1),
+                          )
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          Text(
+                            "${data["uname"][index].toString().split("text").last.replaceAll(":", "").split("┤").last.split("├").first}",
+                            style: TextStyle(fontSize: SizeUtils.fSize_16()),
                           ),
-
-                          width: SizeUtils.horizontalBlockSize * 27,
-                          child: Column(
-                            children: [
-                              Text(
-                                "${data["uname"][index].toString().split("text").last.replaceAll(":", "").split("┤").last.split("├").first}",
-                                style:
-                                    TextStyle(fontSize: SizeUtils.fSize_16()),
-                              ),
-                              SizedBox(
-                                  height: SizeUtils.horizontalBlockSize * 3),
-                              Text(
-                                "${data["uname"][index].toString().split("text").last.replaceAll(":", "").split("┤").last.split("├").first.substring(0, 1).toUpperCase()}",
-                                style:
-                                    TextStyle(fontSize: SizeUtils.fSize_30()),
-                              ),
-                            ],
+                          SizedBox(height: SizeUtils.horizontalBlockSize * 3),
+                          Text(
+                            "${data["uname"][index].toString().split("text").last.replaceAll(":", "").split("┤").last.split("├").first.substring(0, 1).toUpperCase()}",
+                            style: TextStyle(fontSize: SizeUtils.fSize_30()),
                           ),
-                          //  color: Colors.blue,
-                        );
-                      }),
-                ),
-                  /* ListView.builder(
-                     scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    final item = items[index];
-                    return Dismissible(
-                      onDismissed: (direction) {
-                        // Removes that item the list on swipwe
-                        setState(() {
-                          items.removeAt(index);
-                        });
-                        // Shows the information on Snackbar
-                      },
-                      background: Container(color: Colors.red),
-                      key: Key(item),
-                      child: ListTile(
-                        title: Column(children: []),
+                        ],
                       ),
                     );
                   },
-                ),*/
-
-                Spacer(),
-                GestureDetector(
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          content: Container(
-                            height: SizeUtils.verticalBlockSize * 30,
-                            child: Column(
-                              children: [
-                                Row(
+                ),
+              ),
+              Expanded(
+                flex: 10,
+                child: Container(
+                  margin: EdgeInsets.symmetric(
+                      vertical: SizeUtils.verticalBlockSize * 1),
+                  height: SizeUtils.verticalBlockSize * 42,
+                  width: SizeUtils.verticalBlockSize * 45,
+                  child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemCount: 20,
+                    /*splitifyController.controllers.length*/
+                    shrinkWrap: true,
+                    itemBuilder: (BuildContext context, int index) {
+                      final item = items[index];
+                      return Dismissible(
+                        onDismissed: (direction) {
+                          setState(() {
+                            items.removeAt(index);
+                          });
+                        },
+                        background: Container(color: Colors.red),
+                        key: Key(item),
+                        child: ListTile(
+                          title: Column(
+                            children: [
+                              ListTile(
+                                title: Row(
+                                  children: [
+                                    CircleAvatar(
+                                      maxRadius:
+                                          SizeUtils.verticalBlockSize * 3,
+                                      backgroundColor: Colors.grey,
+                                    ),
+                                    Column(
+                                      children: [
+                                        Padding(
+                                          padding:EdgeInsets.only(right: SizeUtils.verticalBlockSize*5),
+                                          child: Text(
+                                              "${splitifyController.usernameController.toString().split("text").last.replaceAll(":", "").split("┤").last.split("├").first}"),
+                                        ),
+                                        Text(
+                                            "${splitifyController.noteController.text.toString().split("text").last.replaceAll(":", "").split("┤").last.split("├").first}"),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Padding(
+                                          padding:  EdgeInsets.only(left: SizeUtils.verticalBlockSize*18),
+                                          child: Text(
+                                              "${splitifyController.amountController.toString().split("text").last.replaceAll(":", "").split("┤").last.split("├").first}"),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+              Spacer(),
+              GestureDetector(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        content: Container(
+                          height: SizeUtils.verticalBlockSize * 30,
+                          child: Column(
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const AppText(
+                                        text: AppString.name,
+                                      ),
+                                      DropdownButton(
+                                        items: data2
+                                            .map(
+                                              (e) => DropdownMenuItem(
+                                                value: e,
+                                                child: Text(
+                                                  "${e.toString().split("text").last.replaceAll(":", "").split("┤").last.split("├").first}",
+                                                  style: TextStyle(
+                                                      fontSize:
+                                                          SizeUtils.fSize_16()),
+                                                ),
+                                              ),
+                                            )
+                                            .toList(),
+                                        onChanged: (newValue) {
+                                          setState(() {
+                                            dropdownvalue = newValue as List;
+                                          });
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        left: SizeUtils.verticalBlockSize * 2),
+                                    child: Container(
+                                      height: SizeUtils.verticalBlockSize * 8,
+                                      width: SizeUtils.horizontalBlockSize * 20,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                              color: Colors.grey,
+                                              blurRadius: 2,
+                                              offset: Offset(1, 2)),
+                                        ],
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    top: SizeUtils.horizontalBlockSize * 4),
+                                child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Column(
@@ -160,66 +243,29 @@ class _UserListPageState extends State<UserListPage> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         const AppText(
-                                          text: AppString.name,
+                                          text: AppString.amount,
                                         ),
-                                        Container(
+                                        CustomTextField(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
                                           height:
                                               SizeUtils.verticalBlockSize * 5,
                                           width: SizeUtils.horizontalBlockSize *
                                               38,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            gradient: LinearGradient(
-                                              colors: [
-                                                Colors.purple.shade200,
-                                                Colors.deepPurple.shade200
-                                              ],
-                                              // tileMode: TileMode.clamp
-                                            ),
-                                            boxShadow: const [
-                                              BoxShadow(
-                                                  color: Colors.grey,
-                                                  blurRadius: 2,
-                                                  offset: Offset(2, 3)),
+                                          gradient: LinearGradient(
+                                            colors: [
+                                              Colors.purple.shade200,
+                                              Colors.deepPurple.shade200
                                             ],
-                                            color: Colors.white,
+
+                                            // tileMode: TileMode.clamp
                                           ),
-                                          child: DropdownButton(
-                                            items: data2
-                                                .map(
-                                                  (e) => DropdownMenuItem(
-                                                    value:e,
-                                                    child: Text(
-                                                      "${e.toString().split("text").last.replaceAll(":", "").split("┤").last.split("├").first}",
-                                                      style: TextStyle(
-                                                          fontSize: SizeUtils
-                                                              .fSize_16()),
-                                                    ),
-                                                  ),
-                                                )
-                                                .toList(),
-                                            onChanged: (newValue) {
-                                              setState(() {
-                                                //print("e${e}");
-                                                dropdownvalue =
-                                                    newValue as int;
-                                                print(
-                                                    "dropdownvalue${dropdownvalue}");
-                                              });
-                                            },
-                                          ),
+                                          contentPadding: EdgeInsets.fromLTRB(
+                                              15, 0, 20, 11),
+                                          controller: splitifyController
+                                              .amountController,
                                         ),
                                       ],
-                                      // DropdownMenuItem(
-                                      //         value: "${data["uname"]}",
-                                      //         child: Text(
-                                      //           "${data["uname"].toString().split("text").last.replaceAll(":", "").split("┤").last.split("├").first}",
-                                      //           style: TextStyle(
-                                      //               fontSize:
-                                      //                   SizeUtils.fSize_16()),
-                                      //         ),
-                                      //       ),
                                     ),
                                     Padding(
                                       padding: EdgeInsets.only(
@@ -232,210 +278,125 @@ class _UserListPageState extends State<UserListPage> {
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(10),
-                                          boxShadow: const [
+                                          boxShadow: [
                                             BoxShadow(
                                                 color: Colors.grey,
                                                 blurRadius: 2,
                                                 offset: Offset(1, 2)),
                                           ],
-                                          color: Colors.white,
+                                          color: Colors.black,
                                         ),
+                                        child: Image.asset(AppImage.rupee),
                                       ),
                                     ),
                                   ],
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      top: SizeUtils.horizontalBlockSize * 4),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          const AppText(
-                                            text: AppString.amount,
-                                          ),
-                                          Container(
-                                            child: TextFormField(
-                                              decoration: InputDecoration(
-                                                  contentPadding:
-                                                      EdgeInsets.fromLTRB(
-                                                          15, 0, 20, 11),
-                                                  border: InputBorder.none),
-                                            ),
-                                            height:
-                                                SizeUtils.verticalBlockSize * 5,
-                                            width:
-                                                SizeUtils.horizontalBlockSize *
-                                                    38,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              gradient: LinearGradient(
-                                                colors: [
-                                                  Colors.purple.shade200,
-                                                  Colors.deepPurple.shade200
-                                                ],
-
-                                                // tileMode: TileMode.clamp
-                                              ),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                    color: Colors.grey,
-                                                    blurRadius: 2,
-                                                    offset: Offset(2, 3)),
-                                              ],
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            left: SizeUtils.verticalBlockSize *
-                                                2),
-                                        child: Container(
-                                          height:
-                                              SizeUtils.verticalBlockSize * 8,
-                                          width: SizeUtils.horizontalBlockSize *
-                                              20,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                  color: Colors.grey,
-                                                  blurRadius: 2,
-                                                  offset: Offset(1, 2)),
-                                            ],
-                                            color: Colors.black,
-                                          ),
-                                          child: Image.asset(AppImage.rupee),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    top: SizeUtils.horizontalBlockSize * 3),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const AppText(
+                                          text: AppString.note,
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      top: SizeUtils.horizontalBlockSize * 3),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          const AppText(
-                                            text: AppString.note,
-                                          ),
-                                          Container(
-                                            height:
-                                                SizeUtils.verticalBlockSize * 5,
-                                            width:
-                                                SizeUtils.horizontalBlockSize *
-                                                    63,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              gradient: LinearGradient(
-                                                colors: [
-                                                  Colors.purple.shade200,
-                                                  Colors.deepPurple.shade200
-                                                ],
-
-                                                // tileMode: TileMode.clamp
-                                              ),
-                                              boxShadow: const [
-                                                BoxShadow(
-                                                    color: Colors.grey,
-                                                    blurRadius: 2,
-                                                    offset: Offset(2, 3)),
-                                              ],
-                                              color: Colors.white,
-                                            ),
-                                            child: TextFormField(
-                                              decoration: const InputDecoration(
-                                                  contentPadding:
-                                                      EdgeInsets.fromLTRB(
-                                                          15, 0, 20, 11),
-                                                  border: InputBorder.none),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          actions: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                ElevatedButton(
-                                  onPressed: () async {
-                                    adduserdetail userDetail = adduserdetail(
-                                      amount: splitifyController
-                                          .amountController.text,
-                                      userId: FirebaseAuth
-                                          .instance.currentUser?.uid,
-                                    );
-                                    await splitifyController
-                                        .insertUserDetail(userDetail);
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text("Add"),
-                                  style: ElevatedButton.styleFrom(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal:
+                                        CustomTextField(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          height:
                                               SizeUtils.verticalBlockSize * 5,
-                                          vertical:
-                                              SizeUtils.horizontalBlockSize *
-                                                  3),
-                                      primary: Colors.red,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(18))),
+                                          width: SizeUtils.horizontalBlockSize *
+                                              63,
+                                          gradient: LinearGradient(
+                                            colors: [
+                                              Colors.purple.shade200,
+                                              Colors.deepPurple.shade200
+                                            ],
+
+                                            // tileMode: TileMode.clamp
+                                          ),
+                                          contentPadding: EdgeInsets.fromLTRB(
+                                              15, 0, 20, 11),
+                                          controller:
+                                              splitifyController.noteController,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text("Cancel"),
-                                  style: ElevatedButton.styleFrom(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal:
-                                              SizeUtils.verticalBlockSize * 4,
-                                          vertical:
-                                              SizeUtils.horizontalBlockSize *
-                                                  3),
-                                      primary: Colors.green,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(18))),
-                                ),
-                              ],
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                  child: CircleAvatar(
-                    child: Icon(Icons.add,
-                        size: SizeUtils.horizontalBlockSize * 10),
-                    backgroundColor: Colors.grey.shade200,
-                    maxRadius: SizeUtils.horizontalBlockSize * 8,
-                  ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        actions: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              ElevatedButton(
+                                onPressed: () async {
+                                  adduserdetail userDetail = adduserdetail(
+                                    amount: splitifyController
+                                        .amountController.text,
+                                    note: splitifyController.noteController.text,
+                                    username: splitifyController.usernameController.text,
+                                    userId:
+                                        FirebaseAuth.instance.currentUser?.uid,
+                                  );
+                                  await splitifyController
+                                      .insertUserDetail(userDetail);
+                                  Navigator.pop(context);
+                                },
+                                child: Text("Add"),
+                                style: ElevatedButton.styleFrom(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal:
+                                            SizeUtils.verticalBlockSize * 5,
+                                        vertical:
+                                            SizeUtils.horizontalBlockSize * 3),
+                                    primary: Colors.red,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(18))),
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text("Cancel"),
+                                style: ElevatedButton.styleFrom(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal:
+                                            SizeUtils.verticalBlockSize * 4,
+                                        vertical:
+                                            SizeUtils.horizontalBlockSize * 3),
+                                    primary: Colors.green,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(18))),
+                              ),
+                            ],
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                child: CircleAvatar(
+                  child:
+                      Icon(Icons.add, size: SizeUtils.horizontalBlockSize * 10),
+                  backgroundColor: Colors.grey.shade200,
+                  maxRadius: SizeUtils.horizontalBlockSize * 8,
                 ),
-              ],
-            ),
+              ),
+              SizedBox(
+                height: SizeUtils.verticalBlockSize * 3,
+              )
+            ],
           ),
         ),
       ),
@@ -449,7 +410,6 @@ class _UserListPageState extends State<UserListPage> {
     final String? text,
     final Gradient? gradient,
   }) {
-    print("Df");
     return Container(
       width: width,
       alignment: Alignment.center,

@@ -20,6 +20,8 @@ class SplitifyControler extends GetxController {
   final passController = TextEditingController();
   final phoneController = TextEditingController();
   final amountController = TextEditingController();
+  final noteController = TextEditingController();
+  final usernameController = TextEditingController();
   final writeATripController = TextEditingController();
   final dateInput = TextEditingController();
   List<TextEditingController> addPersonControllerFirst =
