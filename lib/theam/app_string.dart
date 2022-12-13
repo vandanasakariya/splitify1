@@ -9,8 +9,7 @@ class AppString {
   static const person = "Person:";
   static const next = "NEXT";
   static const enterAName = "Enter a Name";
-  static const moneyIn = "Money In";
-  static const moneyOut = "Money Out";
+  static const totalExpense = "Total Expense";
   static const name= "Name:";
   static const amount= "Amount:";
   static const note= "Note:";

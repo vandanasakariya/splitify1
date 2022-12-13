@@ -24,11 +24,11 @@ class _UserListPageState extends State<UserListPage> {
   final SplitifyControler splitifyController = Get.find()
     ..getOnBoardingDetail();
   var data;
-  var dropdownvalue;
+  String? dropdownvalue;
   int i = 0;
 
   final items = List<String>.generate(20, (i) => "Item ${i + 1}");
-
+  final TextEditingController _dropdownController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     data = Get.arguments;
@@ -54,10 +54,23 @@ class _UserListPageState extends State<UserListPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   _commonContainer(
-                    height: SizeUtils.verticalBlockSize * 13,
+                    height: SizeUtils.verticalBlockSize * 10,
                     width: SizeUtils.verticalBlockSize * 40,
                     color: Colors.yellow.shade200,
-                    text: AppString.moneyIn,
+                    child: Padding(
+                      padding:  EdgeInsets.only(left: SizeUtils.horizontalBlockSize*3),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(AppString.totalExpense,
+                              style: TextStyle(
+                                  fontSize: SizeUtils.fSize_17(),
+                                  fontWeight: FontWeight.bold)),
+                          Text("500",style: TextStyle(fontSize: SizeUtils.fSize_16())),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -139,7 +152,10 @@ class _UserListPageState extends State<UserListPage> {
                                     Column(
                                       children: [
                                         Padding(
-                                          padding:EdgeInsets.only(right: SizeUtils.verticalBlockSize*5),
+                                          padding: EdgeInsets.only(
+                                              right:
+                                                  SizeUtils.verticalBlockSize *
+                                                      5),
                                           child: Text(
                                               "${splitifyController.usernameController.toString().split("text").last.replaceAll(":", "").split("┤").last.split("├").first}"),
                                         ),
@@ -150,7 +166,10 @@ class _UserListPageState extends State<UserListPage> {
                                     Row(
                                       children: [
                                         Padding(
-                                          padding:  EdgeInsets.only(left: SizeUtils.verticalBlockSize*18),
+                                          padding: EdgeInsets.only(
+                                              left:
+                                                  SizeUtils.verticalBlockSize *
+                                                      18),
                                           child: Text(
                                               "${splitifyController.amountController.toString().split("text").last.replaceAll(":", "").split("┤").last.split("├").first}"),
                                         ),
@@ -191,10 +210,13 @@ class _UserListPageState extends State<UserListPage> {
                                         text: AppString.name,
                                       ),
                                       DropdownButton(
+
                                         items: data2
                                             .map(
                                               (e) => DropdownMenuItem(
-                                                value: e,
+                                                value: e, /*_dropdownController.text == ""
+                                                    ? null
+                                                    : _dropdownController.text*/
                                                 child: Text(
                                                   "${e.toString().split("text").last.replaceAll(":", "").split("┤").last.split("├").first}",
                                                   style: TextStyle(
@@ -204,9 +226,9 @@ class _UserListPageState extends State<UserListPage> {
                                               ),
                                             )
                                             .toList(),
-                                        onChanged: (newValue) {
+                                        onChanged: (value) {
                                           setState(() {
-                                            dropdownvalue = newValue as List;
+                                           dropdownvalue=value as String ;
                                           });
                                         },
                                       ),
@@ -342,8 +364,12 @@ class _UserListPageState extends State<UserListPage> {
                                   adduserdetail userDetail = adduserdetail(
                                     amount: splitifyController
                                         .amountController.text,
-                                    note: splitifyController.noteController.text,
-                                    username: splitifyController.usernameController.text,
+                                    name1:
+                                        splitifyController.controllers.string,
+                                    note:
+                                        splitifyController.noteController.text,
+                                    username: splitifyController
+                                        .usernameController.text,
                                     userId:
                                         FirebaseAuth.instance.currentUser?.uid,
                                   );
@@ -407,14 +433,14 @@ class _UserListPageState extends State<UserListPage> {
     double? width,
     double? height,
     final Color? color,
-    final String? text,
     final Gradient? gradient,
+    final String? text,
+    final Widget? child,
   }) {
     return Container(
       width: width,
-      alignment: Alignment.center,
       height: height,
-      child: Text(text!),
+      child: child,
       decoration: BoxDecoration(
         gradient: gradient,
         borderRadius: BorderRadius.circular(10),
