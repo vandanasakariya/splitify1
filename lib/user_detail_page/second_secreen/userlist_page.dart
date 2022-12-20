@@ -26,9 +26,9 @@ class _UserListPageState extends State<UserListPage> {
   var data;
   String? dropdownvalue;
   int i = 0;
-
   final items = List<String>.generate(20, (i) => "Item ${i + 1}");
   final TextEditingController _dropdownController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     data = Get.arguments;
@@ -58,7 +58,8 @@ class _UserListPageState extends State<UserListPage> {
                     width: SizeUtils.verticalBlockSize * 40,
                     color: Colors.yellow.shade200,
                     child: Padding(
-                      padding:  EdgeInsets.only(left: SizeUtils.horizontalBlockSize*3),
+                      padding: EdgeInsets.only(
+                          left: SizeUtils.horizontalBlockSize * 3),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,7 +68,9 @@ class _UserListPageState extends State<UserListPage> {
                               style: TextStyle(
                                   fontSize: SizeUtils.fSize_17(),
                                   fontWeight: FontWeight.bold)),
-                          Text("500",style: TextStyle(fontSize: SizeUtils.fSize_16())),
+                          //Text("500",style: TextStyle(fontSize: SizeUtils.fSize_16())),
+                          Text(
+                              "${splitifyController.amountController.toString().split("text").last.replaceAll(":", "").split("┤").last.split("├").first}"),
                         ],
                       ),
                     ),
@@ -210,13 +213,11 @@ class _UserListPageState extends State<UserListPage> {
                                         text: AppString.name,
                                       ),
                                       DropdownButton(
-
+                                        value: dropdownvalue,
                                         items: data2
                                             .map(
                                               (e) => DropdownMenuItem(
-                                                value: e, /*_dropdownController.text == ""
-                                                    ? null
-                                                    : _dropdownController.text*/
+                                                value: e,
                                                 child: Text(
                                                   "${e.toString().split("text").last.replaceAll(":", "").split("┤").last.split("├").first}",
                                                   style: TextStyle(
@@ -228,7 +229,7 @@ class _UserListPageState extends State<UserListPage> {
                                             .toList(),
                                         onChanged: (value) {
                                           setState(() {
-                                           dropdownvalue=value as String ;
+                                            dropdownvalue = value as String;
                                           });
                                         },
                                       ),
