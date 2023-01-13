@@ -1,14 +1,12 @@
-import 'dart:developer';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:splitify/sqlite_demo/database/database_helper.dart';
 import 'package:splitify/theam/app_img.dart';
 import 'package:splitify/theam/app_string.dart';
 import 'package:splitify/user_detail_page/controller/splitify_controller.dart';
 import 'package:get/get.dart';
 import 'package:splitify/widget/custom_text.dart';
 import 'package:splitify/widget/custom_textfield.dart';
-import '../../modal/setuserdetail.dart';
 import '../../navigation-utils/size_utils.dart';
 
 class UserListPage extends StatefulWidget {
@@ -21,19 +19,20 @@ class UserListPage extends StatefulWidget {
 //String value = "";
 
 class _UserListPageState extends State<UserListPage> {
-  final SplitifyControler splitifyController = Get.find()
-    ..getOnBoardingDetail();
+  final SplitifyControler splitifyController =
+      Get.find() /* ..getOnBoardingDetail()*/;
+
+  DatabaseHandler databaseHandler = new DatabaseHandler();
   var data;
   String? dropdownvalue;
   int i = 0;
   final items = List<String>.generate(20, (i) => "Item ${i + 1}");
-  final TextEditingController _dropdownController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    data = Get.arguments;
-    List data2 = data!["uname"];
-    log("data${data.toString()}");
+    data = Get.arguments!;
+    List data2 = data["uname"];
+    //log("data${data.toString()}");
     return SafeArea(
       child: Scaffold(
         body: Obx(
@@ -44,7 +43,8 @@ class _UserListPageState extends State<UserListPage> {
                     bottom: SizeUtils.verticalBlockSize * 3,
                     top: SizeUtils.horizontalBlockSize * 4),
                 child: Text(
-                  data["journeyname"],
+                  databaseHandler.splitifyControler.writeATripController.text,
+                  //  data["journeyname"],
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: SizeUtils.fSize_20(), color: Colors.black),
@@ -69,8 +69,16 @@ class _UserListPageState extends State<UserListPage> {
                                   fontSize: SizeUtils.fSize_17(),
                                   fontWeight: FontWeight.bold)),
                           //Text("500",style: TextStyle(fontSize: SizeUtils.fSize_16())),
-                          Text(
-                              "${splitifyController.amountController.toString().split("text").last.replaceAll(":", "").split("┤").last.split("├").first}"),
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                Text(
+                                    "${splitifyController.amountController.toString().split("text").last.replaceAll(":", "").split("┤").last.split("├").first}");
+                              });
+                            },
+                            child: Text(
+                                "${splitifyController.amountController.toString().split("text").last.replaceAll(":", "").split("┤").last.split("├").first}"),
+                          ),
                         ],
                       ),
                     ),
@@ -86,6 +94,8 @@ class _UserListPageState extends State<UserListPage> {
                   itemCount: splitifyController.controllers.length,
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
+                    //expense expensess = expenseList[index];
+                    //UserModal userModal = UserModal[index];
                     return Container(
                       // height: SizeUtils.verticalBlockSize * 2,
                       width: SizeUtils.horizontalBlockSize * 27,
@@ -213,7 +223,7 @@ class _UserListPageState extends State<UserListPage> {
                                         text: AppString.name,
                                       ),
                                       DropdownButton(
-                                        value: dropdownvalue,
+                                       // value: /*dropdownvalue*/data2,
                                         items: data2
                                             .map(
                                               (e) => DropdownMenuItem(
@@ -227,6 +237,7 @@ class _UserListPageState extends State<UserListPage> {
                                               ),
                                             )
                                             .toList(),
+                                        value: dropdownvalue,
                                         onChanged: (value) {
                                           setState(() {
                                             dropdownvalue = value as String;
@@ -239,6 +250,15 @@ class _UserListPageState extends State<UserListPage> {
                                     padding: EdgeInsets.only(
                                         left: SizeUtils.verticalBlockSize * 2),
                                     child: Container(
+                                      child: Center(
+                                        child: Text(
+                                            "${data["uname"].toString().split("text").last.replaceAll(":", "").split("┤").last.split("├").first.substring(0, 1).toUpperCase()}",
+                                            style: TextStyle(
+                                                fontSize: SizeUtils.fSize_25(),
+                                                fontWeight: FontWeight.bold)),
+                                      ),
+                                      /*Text(
+                                          "${splitifyController.usernameController.toString().split("text").last.replaceAll(":", "").split("┤").last.split("├").first.substring(0,1).toUpperCase()}")*/
                                       height: SizeUtils.verticalBlockSize * 8,
                                       width: SizeUtils.horizontalBlockSize * 20,
                                       decoration: BoxDecoration(
@@ -362,7 +382,7 @@ class _UserListPageState extends State<UserListPage> {
                             children: [
                               ElevatedButton(
                                 onPressed: () async {
-                                  adduserdetail userDetail = adduserdetail(
+                                  /* adduserdetail userDetail = adduserdetail(
                                     amount: splitifyController
                                         .amountController.text,
                                     name1:
@@ -375,7 +395,9 @@ class _UserListPageState extends State<UserListPage> {
                                         FirebaseAuth.instance.currentUser?.uid,
                                   );
                                   await splitifyController
-                                      .insertUserDetail(userDetail);
+                                      .insertUserDetail(userDetail);*/
+                                  databaseHandler.insertDB();
+                                  databaseHandler.getFromUser();
                                   Navigator.pop(context);
                                 },
                                 child: Text("Add"),

@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+/*
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -77,13 +77,15 @@ class SignInPage extends StatelessWidget {
               SizedBox(height: SizeUtils.verticalBlockSize * 2),
               TextFormField(
                 controller: splitifyControler.phoneController,
-                /*validator: (mono) {
+                */
+/*validator: (mono) {
                 if (mono == null) {
                   return "Enter Mobile No";
                 } else if (mono.length <= 9) {
                   return "Enter valid number";
                 }
-              },*/
+              },*//*
+
                 keyboardType: TextInputType.number,
                 inputFormatters: [LengthLimitingTextInputFormatter(10)],
                 decoration: InputDecoration(
@@ -109,13 +111,15 @@ class SignInPage extends StatelessWidget {
 
               ElevatedButton(
                 onPressed: ()async {
-                /*  adduserdetail userDetail = adduserdetail(
+                */
+/*  adduserdetail userDetail = adduserdetail(
 
                     //name1: splitifyControler.controllers.string,
                     userId: FirebaseAuth.instance.currentUser?.uid,
                   );
                   await splitifyControler
-                      .insertUserDetail(userDetail);*/
+                      .insertUserDetail(userDetail);*//*
+
                    try {
                   FirebaseHelper.signUp(
                     email: splitifyControler.emailController.text,
@@ -130,10 +134,12 @@ class SignInPage extends StatelessWidget {
                     adduserdetail userDetail = adduserdetail(
 
                     //name1: splitifyControler.controllers.string,
-                    userId: FirebaseAuth.instance.currentUser?.uid,
+                   // userId: FirebaseAuth.instance.currentUser?.uid,
                   );
-                  await splitifyControler
-                      .insertUserDetail(userDetail);
+                */
+/*  await splitifyControler
+                      .insertUserDetail(userDetail);*//*
+
                   Navigation.pushNamed(Routes.bottomPage);
 
                   print("aaa--");
@@ -149,3 +155,4 @@ class SignInPage extends StatelessWidget {
     ));
   }
 }
+*/

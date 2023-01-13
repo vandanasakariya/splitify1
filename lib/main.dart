@@ -1,4 +1,3 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:splitify/sharedprafrance/shardprafrance.dart';
@@ -7,7 +6,7 @@ import 'navigation-utils/routes.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp();
+ // Firebase.initializeApp();
   AppPreference.initMySharedPreferences();
   runApp(const MyApp());
 }

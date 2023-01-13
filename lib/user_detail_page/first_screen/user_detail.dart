@@ -1,16 +1,17 @@
 import 'dart:io';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:splitify/modal/setuserdetail.dart';
 import 'package:splitify/navigation-utils/size_utils.dart';
+import 'package:splitify/sqlite_demo/database/database_helper.dart';
+import 'package:splitify/sqlite_demo/modal/user_modal.dart';
 import 'package:splitify/theam/app_img.dart';
 import 'package:splitify/theam/app_string.dart';
 import 'package:splitify/user_detail_page/controller/splitify_controller.dart';
 import 'package:splitify/widget/custom_text.dart';
+import 'package:sqflite/sqflite.dart';
 
 import '../../navigation-utils/navigation.dart';
 import '../../navigation-utils/routes.dart';
@@ -24,10 +25,21 @@ class UserDetail extends StatefulWidget {
 }
 
 class _UserDetailState extends State<UserDetail> {
-  final SplitifyControler splitifyControler = Get.find()..insertUserDetail;
-
-  //DateTime selectedDate = DateTime.now();
-
+  final SplitifyControler splitifyControler = Get.find()/*..insertUserDetail*/;
+  TextEditingController textController = new TextEditingController();
+  Database? _database;
+ //  DatabaseHandler databaseHandler = new DatabaseHandler();
+  late DatabaseHelper dbHelper;
+  bool isEditing = false;
+  late User _user;
+  @override
+  void initState() {
+    super.initState();
+    this.dbHelper = DatabaseHelper();
+    this.dbHelper.initDB().whenComplete(() async {
+      setState(() {});
+    });
+  }
   @override
   void dispose() {
     for (final controller in splitifyControler.controllers) {
@@ -36,7 +48,7 @@ class _UserDetailState extends State<UserDetail> {
     super.dispose();
   }
 
-  var textformFields = <Widget>[];
+  //var textformFields = <Widget>[];
 
   @override
   Widget build(BuildContext context) {
@@ -171,26 +183,37 @@ class _UserDetailState extends State<UserDetail> {
                         Expanded(child: _addTile()),
                         GestureDetector(
                           onTap: () async {
-                            adduserdetail userDetail = adduserdetail(
+                            /* TaskModel taskModal = TaskModel(
+                                name1: splitifyControler.controllers.toString(),
+                                note: splitifyControler.noteController.text,
+                                amount: splitifyControler.amountController.text,
+                                username:
+                                    splitifyControler.usernameController.text);
+
+                            await handler.insertPlanets(TaskModel);*/
+                            /*adduserdetail userDetail = adduserdetail(
                               name1: splitifyControler.controllers.string,
                               userId: FirebaseAuth.instance.currentUser?.uid,
                             );
                             await splitifyControler
                                 .insertUserDetail(userDetail);
-                            print("controller${splitifyControler.controllers}");
+                            print("controller${splitifyControler.controllers}");*/
 
                             // AppPreference.setString("journeyname", splitifyControler.writeATripController.text);
-                            // AppPreference.setString("uname", splitifyControler.controllers.string);
-                            FocusManager.instance.primaryFocus?.unfocus();
-
+                            // AppPreference.setString("uname", splitifyControler.controllers.string);                            FocusManager.instance.primaryFocus?.unfocus();
+                            /* insertDB();
+                            getFromUser();*/
+                           // databaseHandler.insertDB();
+                            //databaseHandler.getFromUser();
+                            addOrEditUser();
                             Navigation.pushNamed(Routes.userListPage, arg: {
                               "journeyname":
                                   splitifyControler.writeATripController.text,
-                              "uname": splitifyControler.controllers,
+                              "uname": splitifyControler.controllers
                             });
                             // print("next${splitifyControler.controllers}");
                             //splitifyControler.controllers = "" as RxList;
-                            // splitifyControler.controllers.clear();
+
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -255,7 +278,6 @@ class _UserDetailState extends State<UserDetail> {
           color: Colors.white,
         ),
       ),
-
       onTap: () {
         final controller = TextEditingController();
         final field = CustomTextField(
@@ -281,40 +303,33 @@ class _UserDetailState extends State<UserDetail> {
           splitifyControler.controllers.add(controller);
           splitifyControler.fields.add(field);
         });
-        /* setState(() {
-          splitifyControler.controllers.add(controller);
-          splitifyControler.fields.remove(field);
-        });*/
       },
     );
   }
+  Future<void> addOrEditUser() async {
+    String tripName = splitifyControler.writeATripController.text;
+    String userName = splitifyControler.controllers.string;
+    String amount = splitifyControler.amountController.text;
+    if (!isEditing) {
+      User user = new User(tripName: tripName,amount:int.parse(amount), userName: userName);
+      await addUser(user);
+    } else {
+      _user.tripName = tripName;
+      _user.amount = int.parse(amount);
+      _user.userName = userName;
+      await updateUser(_user);
+    }
+    //resetData();
+    setState(() {});
+  }
 
-/* _commonTextField({
-    FormFieldValidator<String>? validator,
-    final TextEditingController? controller,
-    GestureTapCallback? onTap,
-    List<TextInputFormatter>? inputFormatters,
-    final String? hintText,
-    TextInputType? keyboardType,
-  }) {
-    return Container(
-      height: SizeUtils.verticalBlockSize * 5,
-      decoration: BoxDecoration(
-        color: Colors.indigo.shade100,
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: TextFormField(
-        validator: validator,
-        controller: controller,
-        onTap: onTap,
-        inputFormatters: inputFormatters,
-        keyboardType: keyboardType,
-        decoration: InputDecoration(
-          hintText: hintText,
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.fromLTRB(15, 0, 20, 11),
-        ),
-      ),
-    );
-  }*/
+
+  Future<int> addUser(User user) async {
+    return await this.dbHelper.insertUser(user);
+  }
+
+  Future<int> updateUser(User user) async {
+    return await this.dbHelper.updateUser(user);
+  }
+
 }
