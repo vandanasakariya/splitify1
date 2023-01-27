@@ -1,21 +1,23 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:splitify/navigation-utils/size_utils.dart';
-import 'package:splitify/sqlite_demo/database/database_helper.dart';
-import 'package:splitify/sqlite_demo/modal/user_modal.dart';
 import 'package:splitify/theam/app_img.dart';
 import 'package:splitify/theam/app_string.dart';
 import 'package:splitify/user_detail_page/controller/splitify_controller.dart';
 import 'package:splitify/widget/custom_text.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../../modal/setuserdetail.dart';
 import '../../navigation-utils/navigation.dart';
 import '../../navigation-utils/routes.dart';
 import '../../widget/custom_textfield.dart';
+import '../database/firebase_auth.dart';
 
 class UserDetail extends StatefulWidget {
   const UserDetail({Key? key}) : super(key: key);
@@ -25,21 +27,30 @@ class UserDetail extends StatefulWidget {
 }
 
 class _UserDetailState extends State<UserDetail> {
-  final SplitifyControler splitifyControler = Get.find()/*..insertUserDetail*/;
+  final SplitifyControler splitifyControler = Get.find()
+
+  /*..insertUserDetail*/;
+
+  static final FirebaseFirestore _firebaseFirestore =
+      FirebaseFirestore.instance;
+  static final CollectionReference _collectionReference =
+  _firebaseFirestore.collection('user');
+
   TextEditingController textController = new TextEditingController();
-  Database? _database;
- //  DatabaseHandler databaseHandler = new DatabaseHandler();
-  late DatabaseHelper dbHelper;
+
+  //  DatabaseHandler databaseHandler = new DatabaseHandler();
+  //late DatabaseHelper dbHelper;
   bool isEditing = false;
-  late User _user;
-  @override
+
+  //late User _user;
+  /* @override
   void initState() {
     super.initState();
     this.dbHelper = DatabaseHelper();
     this.dbHelper.initDB().whenComplete(() async {
       setState(() {});
     });
-  }
+  }*/
   @override
   void dispose() {
     for (final controller in splitifyControler.controllers) {
@@ -124,19 +135,19 @@ class _UserDetailState extends State<UserDetail> {
                                     decoration: const InputDecoration(
                                         border: InputBorder.none,
                                         contentPadding:
-                                            EdgeInsets.fromLTRB(15, 0, 0, 8)),
+                                        EdgeInsets.fromLTRB(15, 0, 0, 8)),
                                     onTap: () async {
                                       DateTime? pickedDate =
-                                          await showDatePicker(
-                                              context: context,
-                                              initialDate: DateTime.now(),
-                                              firstDate: DateTime(2000),
-                                              lastDate: DateTime(2101));
+                                      await showDatePicker(
+                                          context: context,
+                                          initialDate: DateTime.now(),
+                                          firstDate: DateTime(2000),
+                                          lastDate: DateTime(2101));
                                       if (pickedDate != null) {
                                         print(pickedDate);
                                         String formattedDate =
-                                            DateFormat('dd-MM-yyyy')
-                                                .format(pickedDate);
+                                        DateFormat('dd-MM-yyyy')
+                                            .format(pickedDate);
                                         print(formattedDate);
                                         setState(() {
                                           splitifyControler.dateInput.text =
@@ -183,37 +194,36 @@ class _UserDetailState extends State<UserDetail> {
                         Expanded(child: _addTile()),
                         GestureDetector(
                           onTap: () async {
-                            /* TaskModel taskModal = TaskModel(
-                                name1: splitifyControler.controllers.toString(),
-                                note: splitifyControler.noteController.text,
-                                amount: splitifyControler.amountController.text,
-                                username:
-                                    splitifyControler.usernameController.text);
-
-                            await handler.insertPlanets(TaskModel);*/
-                            /*adduserdetail userDetail = adduserdetail(
-                              name1: splitifyControler.controllers.string,
+                            adduserdetail userDetail = adduserdetail(
+                              tripName:
+                              splitifyControler.writeATripController.text,
+                              username: splitifyControler.controllers.string
+                                  .toString(),
                               userId: FirebaseAuth.instance.currentUser?.uid,
                             );
                             await splitifyControler
                                 .insertUserDetail(userDetail);
-                            print("controller${splitifyControler.controllers}");*/
-
-                            // AppPreference.setString("journeyname", splitifyControler.writeATripController.text);
-                            // AppPreference.setString("uname", splitifyControler.controllers.string);                            FocusManager.instance.primaryFocus?.unfocus();
-                            /* insertDB();
-                            getFromUser();*/
-                           // databaseHandler.insertDB();
-                            //databaseHandler.getFromUser();
-                            addOrEditUser();
-                            Navigation.pushNamed(Routes.userListPage, arg: {
+                            SplitifyControler.updateChecklist(
+                             // amount: splitifyControler.amountController as int,
+                              userName:splitifyControler.controllers.string,
+                              tripName: splitifyControler.writeATripController
+                                  .text,
+                              docId: FirebaseAuth.instance.currentUser?.uid,);
+                            Navigation.pushNamed(
+                              Routes
+                                  .userListPage, /*arg: {
                               "journeyname":
                                   splitifyControler.writeATripController.text,
                               "uname": splitifyControler.controllers
-                            });
-                            // print("next${splitifyControler.controllers}");
-                            //splitifyControler.controllers = "" as RxList;
+                            }*/
 
+                            );
+
+                            setState(() {
+                              splitifyControler.fields.length;
+                             // splitifyControler.historycount.add(field);
+                              //splitifyController.listcont.remove(field);
+                            });
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -296,26 +306,27 @@ class _UserDetailState extends State<UserDetail> {
           keyboardType: TextInputType.text,
           contentPadding: EdgeInsets.fromLTRB(15, 20, 20, 11),
           hintText:
-              "  ${splitifyControler.controllers.length + 1} Enter Name...",
+          "  ${splitifyControler.controllers.length + 1} Enter Name...",
         );
 
         setState(() {
           splitifyControler.controllers.add(controller);
           splitifyControler.fields.add(field);
+          print("yyyy${splitifyControler.fields}");
         });
       },
     );
   }
-  Future<void> addOrEditUser() async {
+/* Future<void> addOrEditUser() async {
     String tripName = splitifyControler.writeATripController.text;
     String userName = splitifyControler.controllers.string;
-    String amount = splitifyControler.amountController.text;
+    //String amount = splitifyControler.amountController.text;
     if (!isEditing) {
-      User user = new User(tripName: tripName,amount:int.parse(amount), userName: userName);
+      User user = new User(tripName: tripName,*/ /*amount:int.parse(amount)*/ /* userName: userName);
       await addUser(user);
     } else {
       _user.tripName = tripName;
-      _user.amount = int.parse(amount);
+      //_user.amount = int.parse(amount);
       _user.userName = userName;
       await updateUser(_user);
     }
@@ -325,11 +336,11 @@ class _UserDetailState extends State<UserDetail> {
 
 
   Future<int> addUser(User user) async {
-    return await this.dbHelper.insertUser(user);
+    return await dbHelper.insertUser(user);
   }
 
   Future<int> updateUser(User user) async {
     return await this.dbHelper.updateUser(user);
-  }
+  }*/
 
 }

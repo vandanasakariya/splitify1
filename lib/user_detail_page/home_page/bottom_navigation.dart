@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:splitify/user_detail_page/history_page/history_page.dart';
 
 import '../first_screen/user_detail.dart';
-
+import '../share_page/share_page.dart';
 
 class BottomPage extends StatefulWidget {
   BottomPage({Key? key}) : super(key: key);
@@ -13,16 +14,18 @@ class BottomPage extends StatefulWidget {
 
 class _BottomPageState extends State<BottomPage> {
   List page = [
-
     UserDetail(),
+    SharePage(),
+    HistoryPage(),
   ];
 
   int count = 0;
 
   int i = 0;
+
   void _onItemTapped(int index) {
     setState(
-          () {
+      () {
         count = index;
       },
     );
@@ -44,17 +47,11 @@ class _BottomPageState extends State<BottomPage> {
               icon: Icon(
                 Icons.share,
               ),
-             label: "",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.bar_chart,
-              ),
               label: "",
             ),
             BottomNavigationBarItem(
               icon: Icon(
-                Icons.settings,
+                Icons.bar_chart,
               ),
               label: "",
             ),

@@ -1,4 +1,4 @@
-/*
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -77,15 +77,13 @@ class SignInPage extends StatelessWidget {
               SizedBox(height: SizeUtils.verticalBlockSize * 2),
               TextFormField(
                 controller: splitifyControler.phoneController,
-                */
-/*validator: (mono) {
-                if (mono == null) {
-                  return "Enter Mobile No";
-                } else if (mono.length <= 9) {
-                  return "Enter valid number";
-                }
-              },*//*
-
+                validator: (mono) {
+                  if (mono == null) {
+                    return "Enter Mobile No";
+                  } else if (mono.length <= 9) {
+                    return "Enter valid number";
+                  }
+                },
                 keyboardType: TextInputType.number,
                 inputFormatters: [LengthLimitingTextInputFormatter(10)],
                 decoration: InputDecoration(
@@ -106,45 +104,28 @@ class SignInPage extends StatelessWidget {
                 ),
               ),
               SizedBox(height: SizeUtils.verticalBlockSize * 2),
-
-
-
               ElevatedButton(
-                onPressed: ()async {
-                */
-/*  adduserdetail userDetail = adduserdetail(
+                onPressed: () async {
+                  try {
+                    FirebaseHelper.signUp(
+                      email: splitifyControler.emailController.text,
+                      password: splitifyControler.passController.text,
+                    );
+                  } catch (e) {
+                    print("error$e");
+                  }
 
-                    //name1: splitifyControler.controllers.string,
-                    userId: FirebaseAuth.instance.currentUser?.uid,
-                  );
-                  await splitifyControler
-                      .insertUserDetail(userDetail);*//*
-
-                   try {
-                  FirebaseHelper.signUp(
-                    email: splitifyControler.emailController.text,
-                    password: splitifyControler.passController.text,
-                  );
-                } catch (e) {
-                  print("error$e");
-                }
-
-
-                if (splitifyControler.formKey.currentState!.validate()) {
+                  if (splitifyControler.formKey.currentState!.validate()) {
                     adduserdetail userDetail = adduserdetail(
+                      userId: FirebaseAuth.instance.currentUser?.uid,
+                    );
+                    await splitifyControler.insertUserDetail(userDetail);
 
-                    //name1: splitifyControler.controllers.string,
-                   // userId: FirebaseAuth.instance.currentUser?.uid,
-                  );
-                */
-/*  await splitifyControler
-                      .insertUserDetail(userDetail);*//*
+                    Navigation.pushNamed(Routes.bottomPage);
 
-                  Navigation.pushNamed(Routes.bottomPage);
-
-                  print("aaa--");
-                }
-                 // Navigation.pushNamed(Routes.bottomPage);
+                    print("aaa--");
+                  }
+                  // Navigation.pushNamed(Routes.bottomPage);
                 },
                 child: Text("Sign Up"),
               ),
@@ -155,4 +136,3 @@ class SignInPage extends StatelessWidget {
     ));
   }
 }
-*/

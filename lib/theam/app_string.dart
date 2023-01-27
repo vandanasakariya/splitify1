@@ -18,5 +18,6 @@ class AppString {
   static const enterEmailId= "Enter Email id";
   static const enterPassword= "Enter Password";
   static const enterPhoneNo= "Enter Phone no";
+  static const history= "History";
 
 }

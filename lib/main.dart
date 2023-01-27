@@ -1,13 +1,13 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:splitify/sharedprafrance/shardprafrance.dart';
 import 'package:splitify/user_detail_page/controller/splitify_controller.dart';
 import 'navigation-utils/routes.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
- // Firebase.initializeApp();
-  AppPreference.initMySharedPreferences();
+ Firebase.initializeApp();
+
   runApp(const MyApp());
 }
 

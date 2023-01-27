@@ -38,11 +38,11 @@ dependencies:
   get: ^4.6.5
   flutter_launcher_icons: ^0.10.0
   date_time_picker: ^2.1.0
-  #firebase_auth:
+  firebase_auth:
   #google_sign_in:
-  #firebase_core:
-  #cloud_firestore:
-  #snapshot:
+  firebase_core:
+  cloud_firestore:
+  snapshot:
   #flutter_swiper: ^1.1.6
   shared_preferences: ^2.0.15
   flutter_swiper_null_safety: ^1.0.2

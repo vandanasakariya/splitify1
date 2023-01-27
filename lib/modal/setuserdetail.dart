@@ -1,15 +1,15 @@
-/*
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class adduserdetail {
-  String? name1;
+  String? tripName;
   String? userId;
-  String? amount;
+  int? amount;
   String? note;
   String? username;
 
   adduserdetail({
-    this.name1,
+    this.tripName,
     this.userId,
     this.amount,
     this.note,
@@ -19,19 +19,19 @@ class adduserdetail {
   adduserdetail.fromDocumentSnapshot(
     DocumentSnapshot documentSnapshot,
   ) {
-    Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
-    name1 = data["name1"] ?? '';
+    Map<String,dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
+    tripName = data["tripName"] ?? '';
     userId = data["userId"] ?? '';
-    amount = data["amount"] ?? '';
+    amount = data["amount"] ?? 0;
     note = data["note"] ?? '';
     username = data["username"] ?? '';
 
   }
 
   adduserdetail.fromJson(Map<String, dynamic> json) {
-    name1 = json["name1"] ?? '';
+    tripName = json["tripName"] ?? '';
     userId = json["userId"] ?? '';
-    amount = json["amount"] ?? '';
+    amount = json["amount"] ?? 0;
     note = json["note"] ?? '';
     username = json["username"] ?? '';
 
@@ -39,7 +39,7 @@ class adduserdetail {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['name1'] = name1;
+    data['tripName'] = tripName;
     data['userId'] = userId;
     data['amount'] = amount;
     data['note'] =note;
@@ -48,4 +48,3 @@ class adduserdetail {
     return data;
   }
 }
-*/

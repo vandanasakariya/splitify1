@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:splitify/theam/app_img.dart';
@@ -25,11 +26,11 @@ class _SplashScreenState extends State<SplashScreen> {
       () {
         // final credential = GoogleSign().signInWithGoogle();
         //log("credential-------${credential}");
-        /*FirebaseAuth.instance.currentUser == null
+        FirebaseAuth.instance.currentUser == null
             ? Navigation.pushNamed(Routes.signInPage)
-            : Navigation.pushNamed(Routes.bottomPage);*/
-        Navigation.pushNamed(Routes.bottomPage
-        );
+            : Navigation.pushNamed(Routes.bottomPage);
+       // Navigation.pushNamed(Routes.bottomPage);
+
       },
     );
   }
